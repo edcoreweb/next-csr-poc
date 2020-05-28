@@ -1,6 +1,6 @@
 let refresh = true
 
-const dynamicRoutes = [
+const routes = [
   '/',
   '/about',
   '/about/[id]'
@@ -18,7 +18,7 @@ function App({ Component, pageProps, router }) {
     refresh = false
 
     // try to match dynamic routes
-    const match = dynamicRoutes.find(route => makeRegex(route).test(location.pathname))
+    const match = routes.find(route => makeRegex(route).test(location.pathname))
 
     if (match) {
       router.replace(match, path)
