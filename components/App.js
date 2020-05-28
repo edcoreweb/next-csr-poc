@@ -3,12 +3,20 @@ let refresh = true
 const routes = [
   '/',
   '/about',
-  '/about/[id]'
+  '/about/[id]',
+  '/about/[...slug]'
 ];
 
 const makeRegex = (route) => {
-  const exp = route.replace(/\//g, '\\/').replace(/\[[^\]]+]/g, '[^/]+')
-  return new RegExp(`${exp}$`)
+  let catchAll = false
+  let exp = route.replace(/\//g, '\\/').replace(/\[[^\]]+]/g, '[^/]+')
+
+  if (exp.includes('...')) {
+    exp = exp.replace('...', '')
+    catchAll = true
+  }
+
+  return new RegExp(`${exp}${catchAll ? '' : '$'}`)
 }
 
 function App({ Component, pageProps, router }) {
