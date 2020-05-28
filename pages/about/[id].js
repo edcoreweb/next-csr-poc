@@ -1,8 +1,12 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-function About({ stars }) {
+function AboutItem({ stars }) {
+  const { id } = useRouter().query
+
   return <div>
     Next stars: {stars}
+    Id is: { id }
 
     <hr/>
     <Link href="/">
@@ -10,20 +14,13 @@ function About({ stars }) {
         <h1>Go home</h1>
       </a>
     </Link>
-
-    <hr/>
-    <Link href="/about/[id]" as="/about/35">
-      <a className="card">
-        <h1>Go to item</h1>
-      </a>
-    </Link>
   </div>
 }
 
-About.getInitialProps = async (ctx) => {
+AboutItem.getInitialProps = async (ctx) => {
   const res = await fetch('https://api.github.com/repos/zeit/next.js')
   const json = await res.json()
   return { stars: json.stargazers_count }
 }
 
-export default About
+export default AboutItem
